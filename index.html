@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HistoryScapes — See History. Remember It Forever.</title>
+  <meta name="description" content="Open-source visual journeys through history. Interactive 3D scenes, maps and diagrams that make the past unforgettable — for kids, movie buffs and history geeks alike." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%8F%9B%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="index.html">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21h18M4 18h16M5 8h14M6 8v10M10 8v10M14 8v10M18 8v10M12 2 3 8h18L12 2z" stroke="#d9a441" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        HistoryScapes
+      </a>
+      <nav class="nav-links">
+        <a href="sagas/troy/index.html">Troy</a>
+        <a href="sagas/odyssey/index.html">Odyssey</a>
+        <a href="https://github.com/mohitagw15856/historyscapes">GitHub</a>
+      </nav>
+      <div class="persona-switch" title="Choose how history is told to you"></div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="kicker">Open-source visual history</div>
+    <h1>See history.<br /><span class="gold">Remember it forever.</span></h1>
+    <p class="sub">
+      Interactive 3D scenes, journey maps and story diagrams that turn the great
+      events of the past into something you can explore — tuned to how <em>you</em>
+      like your history told.
+    </p>
+  </section>
+
+  <!-- 3D temple hero -->
+  <section class="section reveal" style="padding-top:0">
+    <div class="panel" style="padding:0.6rem">
+      <canvas id="temple-canvas" style="width:100%;height:420px;display:block;cursor:grab" aria-label="Rotating 3D Greek temple"></canvas>
+      <p style="text-align:center;color:var(--parchment-dim);font-size:0.95rem;padding:0.4rem 0 0.8rem">
+        ↻ Drag to orbit the temple — every 3D scene on this site is rendered by our own
+        300-line engine. No libraries, no build step.
+      </p>
+    </div>
+  </section>
+
+  <div class="meander"></div>
+
+  <!-- saga cards -->
+  <section class="section">
+    <h2 class="section-title">Choose Your Saga</h2>
+    <p class="section-sub">
+      We begin where Western storytelling begins — the Trojan War and the long
+      voyage home. More eras arrive as the community builds them.
+    </p>
+    <div class="card-grid">
+      <a class="saga-card live reveal" href="sagas/troy/index.html">
+        <span class="tag">Live</span>
+        <div class="art">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <path d="M14 52h36M18 52V30l8-6v-8l6 4 6-4v8l8 6v22M26 52v-10h12v10" stroke="#d9a441" stroke-width="2.2" stroke-linejoin="round"/>
+            <circle cx="32" cy="14" r="3" stroke="#e8794a" stroke-width="2"/>
+          </svg>
+        </div>
+        <h3>Saga 01 · The Fall of Troy</h3>
+        <p>A golden apple, a stolen queen, a thousand ships and a wooden horse. Ten years of war in eight chapters — plus what archaeologists actually dug up.</p>
+      </a>
+      <a class="saga-card live reveal" href="sagas/odyssey/index.html">
+        <span class="tag">Live</span>
+        <div class="art">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <path d="M10 44c4-3 8-3 12 0s8 3 12 0 8-3 12 0 8 3 8 3M16 40l4-14h24l4 14M32 26V12m0 0 10 8H32" stroke="#d9a441" stroke-width="2.2" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Saga 02 · The Odyssey</h3>
+        <p>Ten years, fourteen stops, one man trying to get home. Sail the full journey on an interactive chart of the mythic Mediterranean.</p>
+      </a>
+      <div class="saga-card soon reveal">
+        <span class="tag">You build it</span>
+        <div class="art">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <path d="M32 8v48M12 20h40M20 20l-8 34h16l-8-34M44 20l-8 34h16l-8-34" stroke="#8c6a3f" stroke-width="2.2" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Saga 03 · Your Era Here</h3>
+        <p>Rome, Egypt, the Silk Road, the Mahabharata… every saga is a folder of data + scenes anyone can contribute. Open a PR and put your favourite history on the map.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="meander"></div>
+
+  <!-- how it adapts -->
+  <section class="section">
+    <h2 class="section-title">One Story, Three Voices</h2>
+    <p class="section-sub">
+      Pick a lens in the header and every fact on the site retunes itself.
+      Try switching now — this card will change:
+    </p>
+    <div style="max-width:640px;margin:0 auto">
+      <div data-facts='{
+        "explorer": "The Trojan War started over an argument about who was the prettiest goddess. Grown-up gods, arguing like siblings on a road trip — and it started a ten-year war!",
+        "moviebuff": "Nolan&#39;s <em>The Odyssey</em> (2026) and <em>Troy</em> (2004) bookend this saga: one film about the war, one about getting home. This site is the connective tissue between the two.",
+        "historian": "The Trojan War myth likely preserves a memory of real Late Bronze Age conflict. Hittite tablets mention a city called Wilusa — very plausibly Ilios — and a troublesome people called the Ahhiyawa: quite possibly Homer&#39;s Achaeans."
+      }'></div>
+    </div>
+  </section>
+
+  <div class="meander"></div>
+
+  <!-- open source pitch -->
+  <section class="section">
+    <h2 class="section-title">Built in the Open</h2>
+    <p class="section-sub">
+      HistoryScapes is a single source of truth for visual history — free forever,
+      hosted on GitHub Pages, zero dependencies. Historians check the facts,
+      developers build the scenes, teachers use it in class.
+    </p>
+    <div style="text-align:center">
+      <a class="btn primary" href="https://github.com/mohitagw15856/historyscapes">Contribute on GitHub</a>
+      <a class="btn" href="sagas/troy/index.html" style="margin-left:0.6rem">Start the Saga →</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="meander" style="margin-bottom:1.6rem"></div>
+    HistoryScapes — an open-source project ·
+    <a href="https://github.com/mohitagw15856/historyscapes">GitHub</a> ·
+    MIT licensed · Sister project of <a href="https://github.com/mohitagw15856/sciencescapes">ScienceScapes</a>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/engine3d.js"></script>
+  <script>
+    // 3D temple hero scene
+    document.addEventListener("DOMContentLoaded", () => {
+      const canvas = document.getElementById("temple-canvas");
+      E3D.createScene(canvas, {
+        mesh: E3D.templeMesh(),
+        camDist: 560,
+        fov: 700,
+        rx: 0.26,
+        ry: 0.5,
+        autoSpin: 0.0035,
+      });
+    });
+  </script>
+</body>
+</html>

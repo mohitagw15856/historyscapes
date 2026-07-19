@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Fall of Troy — HistoryScapes</title>
+  <meta name="description" content="The Trojan War in eight interactive chapters: golden apple to burning city, with a 3D Trojan Horse, a character web of gods and heroes, and the real archaeology of Hisarlik." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../css/main.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%90%B4%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="../../index.html">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21h18M4 18h16M5 8h14M6 8v10M10 8v10M14 8v10M18 8v10M12 2 3 8h18L12 2z" stroke="#d9a441" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        HistoryScapes
+      </a>
+      <nav class="nav-links">
+        <a href="index.html" aria-current="page">Troy</a>
+        <a href="../odyssey/index.html">Odyssey</a>
+        <a href="https://github.com/mohitagw15856/historyscapes">GitHub</a>
+      </nav>
+      <div class="persona-switch" title="Choose how history is told to you"></div>
+    </div>
+  </header>
+
+  <section class="hero" style="padding-bottom:2rem">
+    <div class="kicker">Saga 01 · c. 1180 BCE · The Aegean</div>
+    <h1>The Fall of <span class="gold">Troy</span></h1>
+    <p class="sub" id="saga-intro"></p>
+  </section>
+
+  <!-- 3D trojan horse -->
+  <section class="section reveal" style="padding-top:0.5rem">
+    <div class="panel" style="padding:0.6rem">
+      <canvas id="horse-canvas" style="width:100%;height:440px;display:block;cursor:grab" aria-label="Rotating 3D Trojan Horse"></canvas>
+      <p style="text-align:center;color:var(--parchment-dim);font-size:0.95rem;padding:0.4rem 0 0.8rem">
+        ↻ Drag to inspect the horse — note the bronze trapdoor under the belly.
+        Legend says it held 30 to 40 warriors, Odysseus among them.
+      </p>
+    </div>
+  </section>
+
+  <div class="meander"></div>
+
+  <!-- the eight chapters -->
+  <section class="section">
+    <h2 class="section-title">Ten Years in Eight Chapters</h2>
+    <p class="section-sub">From one golden apple to a city in flames. Switch your lens in the header — every fact card below retells itself.</p>
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+  <div class="meander"></div>
+
+  <!-- character web -->
+  <section class="section">
+    <h2 class="section-title">Who's Who: The Web of the War</h2>
+    <p class="section-sub">Hover any name to light up their relationships. Gold dashes = divine backing, red dots = enemies, orange = love, grey = family.</p>
+    <div class="diagram-wrap reveal">
+      <svg id="char-web" viewBox="0 0 960 530" width="960" height="530" role="img" aria-label="Relationship diagram of gods, Greeks and Trojans in the Trojan War"></svg>
+    </div>
+    <div class="legend">
+      <span><i style="background:#8c9bb5"></i> family</span>
+      <span><i style="background:#e8794a"></i> love</span>
+      <span><i style="background:#d9a441"></i> divine support</span>
+      <span><i style="background:#c0392b"></i> conflict</span>
+    </div>
+  </section>
+
+  <div class="meander"></div>
+
+  <!-- myth vs dig -->
+  <section class="section">
+    <h2 class="section-title">Myth vs. Dig</h2>
+    <p class="section-sub">
+      In 1870, Heinrich Schliemann started digging at Hisarlik in Türkiye — and found nine
+      cities stacked on top of each other. Here's how the legend measures up against the trowel.
+    </p>
+    <div id="mvd"></div>
+  </section>
+
+  <!-- next saga -->
+  <section class="section" style="text-align:center">
+    <div class="panel reveal" style="max-width:640px;margin:0 auto">
+      <div class="kicker" style="font-family:var(--font-display);letter-spacing:0.3em;text-transform:uppercase;font-size:0.8rem;color:var(--terracotta-bright);margin-bottom:0.8rem">Continue the story</div>
+      <h3 style="font-family:var(--font-display);font-size:1.6rem;color:var(--gold-bright);margin-bottom:0.6rem">Troy has fallen. Now try getting home.</h3>
+      <p style="color:var(--parchment-dim);margin-bottom:1.4rem">Odysseus's reward for winning the war: a ten-year voyage past man-eating giants, singing monsters and a very angry sea god.</p>
+      <a class="btn primary" href="../odyssey/index.html">Sail the Odyssey →</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="meander" style="margin-bottom:1.6rem"></div>
+    HistoryScapes — an open-source project ·
+    <a href="https://github.com/mohitagw15856/historyscapes">GitHub</a> ·
+    Spotted an error? <a href="https://github.com/mohitagw15856/historyscapes/issues">Open an issue</a>
+  </footer>
+
+  <script src="../../js/main.js"></script>
+  <script src="../../js/engine3d.js"></script>
+  <script src="data.js"></script>
+  <script src="troy.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("saga-intro").textContent = TROY_DATA.intro;
+    });
+  </script>
+</body>
+</html>
