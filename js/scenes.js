@@ -257,9 +257,9 @@ const HSScenes = (() => {
     </pattern>
   </defs>
   <rect width="900" height="260" fill="url(#bg-${uid})"/>
+  <g class="hs-par" style="will-change:transform">${inner}</g>
   <rect y="6" width="900" height="12" fill="url(#mk-${uid})"/>
   <rect y="242" width="900" height="12" fill="url(#mk-${uid})"/>
-  ${inner}
 </svg>`;
   }
 

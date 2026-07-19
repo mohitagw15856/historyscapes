@@ -119,6 +119,34 @@ const HS = (() => {
     })();
   }
 
+  // ---------- scroll parallax on scene panels ----------
+  // Scene content (inside the pottery frame) drifts as the panel crosses the
+  // viewport, giving the illustrations depth against their borders.
+  function startParallax() {
+    let ticking = false;
+    function update() {
+      ticking = false;
+      const vh = innerHeight;
+      document.querySelectorAll(".scene-wrap svg .hs-par").forEach((layer) => {
+        const r = layer.ownerSVGElement.getBoundingClientRect();
+        if (r.bottom < -40 || r.top > vh + 40) return;
+        const p = ((r.top + r.height / 2) / vh - 0.5) * 2; // -1 (top) .. 1 (bottom)
+        layer.style.transform = `translateY(${(p * 13).toFixed(1)}px)`;
+      });
+    }
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", onScroll, { passive: true });
+    // dynamic pages (odyssey stop panel) re-render scenes after load
+    document.addEventListener("hs:scenes", onScroll);
+    update();
+  }
+
   // ---------- scroll reveals ----------
   function startReveals() {
     const obs = new IntersectionObserver(
@@ -134,6 +162,7 @@ const HS = (() => {
     setPersona(getPersona());
     startStarfield();
     startReveals();
+    startParallax();
   });
 
   return { getPersona, setPersona, renderFacts, PERSONAS };

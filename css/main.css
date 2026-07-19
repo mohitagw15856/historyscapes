@@ -384,6 +384,21 @@ body {
 
 .scene-wrap svg { width: 100%; height: auto; display: block; }
 
+/* chapters: scenes slide in from alternating sides as you scroll */
+.chapter .scene-wrap {
+  opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.25, 1), opacity 0.9s ease;
+}
+
+.chapter:nth-of-type(odd) .scene-wrap { transform: translateX(-48px) rotate(-0.6deg); }
+.chapter:nth-of-type(even) .scene-wrap { transform: translateX(48px) rotate(0.6deg); }
+
+.chapter.visible .scene-wrap { transform: none; opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .chapter .scene-wrap { transform: none; opacity: 1; transition: none; }
+}
+
 .frieze-wrap {
   max-width: var(--maxw);
   margin: 0 auto;

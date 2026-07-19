@@ -120,49 +120,88 @@ document.addEventListener("DOMContentLoaded", () => {
     sailShip.setAttribute("transform", `translate(${p.x} ${p.y - 6}) ${flip}`);
   })();
 
-  // living decorations: whirlpool, sea serpent, siren gulls, cyclops eye
+  // living decorations: sea serpent + gulls, and animation classes for island landmarks
   const decor = document.createElementNS(NS, "g");
   decor.innerHTML = `
-    <g style="transform-box:fill-box;transform-origin:center;animation:spin 9s linear infinite">
-      <path d="M 330 452 A 26 26 0 1 1 278 452 A 22 22 0 1 1 322 452 A 15 15 0 1 1 292 452 A 8 8 0 1 1 308 452"
-        fill="none" stroke="rgba(200,225,255,0.5)" stroke-width="2.4" transform="translate(-4 8)"/>
-    </g>
-    <style>@keyframes spin { to { transform: rotate(360deg) } }
-      .serp { animation: serp 5s ease-in-out infinite alternate }
-      @keyframes serp { from { transform: translateY(0) } to { transform: translateY(7px) } }
-      .gull { animation: serp 3s ease-in-out infinite alternate }
+    <style>
+      .m-serp { animation: mSerp 5s ease-in-out infinite alternate }
+      @keyframes mSerp { from { transform: translateY(0) } to { transform: translateY(7px) } }
+      .m-flick { animation: mFlick 1.3s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: 50% 100%; }
+      @keyframes mFlick { from { transform: scaleY(1) } to { transform: scaleY(1.4) scaleX(0.82) } }
+      .m-bob { animation: mBob 3s ease-in-out infinite alternate }
+      @keyframes mBob { from { transform: translateY(0) } to { transform: translateY(4px) } }
+      .m-blink { animation: mBlink 4.5s infinite; transform-box: fill-box; transform-origin: center; }
+      @keyframes mBlink { 0%, 90%, 100% { transform: scaleY(1) } 94% { transform: scaleY(0.1) } }
+      .m-spin { animation: mSpin 7s linear infinite; transform-box: fill-box; transform-origin: 50% 50%; }
+      @keyframes mSpin { to { transform: rotate(360deg) } }
+      .m-glow { animation: mGlow 2s ease-in-out infinite alternate }
+      @keyframes mGlow { from { opacity: 0.4 } to { opacity: 1 } }
     </style>
-    <g class="serp">
+    <g class="m-serp">
       <path d="M600 560 q14 -18 28 0 q14 18 28 0 q14 -18 28 0" fill="none" stroke="rgba(217,164,65,0.55)" stroke-width="3"/>
       <path d="M688 558 l10 -10 l2 12 Z" fill="rgba(217,164,65,0.55)"/>
     </g>
-    <g class="gull" style="animation-delay:0.8s">
+    <g class="m-bob" style="animation-delay:0.8s">
       <path d="M180 330 q6 -7 12 0 M192 330 q6 -7 12 0" fill="none" stroke="rgba(240,214,150,0.7)" stroke-width="2"/>
       <path d="M212 344 q5 -6 10 0 M222 344 q5 -6 10 0" fill="none" stroke="rgba(240,214,150,0.5)" stroke-width="1.8"/>
-    </g>
-    <g class="serp" style="animation-delay:1.4s">
-      <ellipse cx="497" cy="398" rx="10" ry="6" fill="rgba(243,234,215,0.85)"/>
-      <circle cx="497" cy="398" r="3.2" fill="#d9a441"/><circle cx="497" cy="398" r="1.5" fill="#241209"/>
     </g>`;
   svg.appendChild(decor);
 
+  // per-stop island landmarks, pottery style (local coords, base at 0,0)
+  const GOLD = "#d9a441", CREAM = "#f3ead7", EMB = "#e8794a", DARK = "#241209", OLIVE = "#7a8450";
+  const MOTIFS = {
+    1: `<rect x="-13" y="-15" width="9" height="15" fill="${DARK}"/><rect x="4" y="-18" width="9" height="18" fill="${DARK}"/>
+        <g class="m-flick"><path d="M-8.5 -15 Q-12 -21 -8.5 -28 Q-5 -21 -8.5 -15" fill="${EMB}"/></g>
+        <g class="m-flick" style="animation-delay:0.5s"><path d="M8.5 -18 Q5 -24 8.5 -31 Q12 -24 8.5 -18" fill="${EMB}"/></g>`,
+    2: `<path d="M-11 0 L9 -22 M9 0 L-11 -22" stroke="${GOLD}" stroke-width="2.2"/>
+        <path d="M9 -22 L3 -21 L8 -16 Z M-11 -22 L-5 -21 L-10 -16 Z" fill="${GOLD}"/>`,
+    3: `<g class="m-glow"><circle cy="-10" r="5.5" fill="${GOLD}"/>
+        <path d="M-6 -10 Q-12 -19 -3 -19 M6 -10 Q12 -19 3 -19 M0 -15 Q0 -23 5 -24" stroke="${GOLD}" stroke-width="2" fill="none"/></g>`,
+    4: `<g class="m-blink"><path d="M-14 -10 Q0 -21 14 -10 Q0 1 -14 -10 Z" fill="${CREAM}"/>
+        <circle cy="-10" r="4.6" fill="${GOLD}"/><circle cy="-10" r="2.2" fill="${DARK}"/></g>`,
+    5: `<g class="m-glow"><path d="M-12 -6 q8 -6 16 -2 q7 4 12 0 M-10 -14 q7 -5 14 -1" stroke="${CREAM}" stroke-width="2.2" fill="none"/></g>`,
+    6: `<path d="M-14 0 L-9 -12 L0 -15 L7 -8 L9 0 Z" fill="${DARK}"/><path d="M2 -14 L7 -23 L14 -18 L13 -10 Z" fill="${DARK}" opacity="0.85"/>`,
+    7: `<ellipse cx="0" cy="-6" rx="10" ry="6.5" fill="${DARK}"/><circle cx="-9.5" cy="-8.5" r="4.4" fill="${DARK}"/>
+        <rect x="-15.5" y="-9.5" width="3.6" height="3" rx="1.2" fill="${DARK}"/>
+        <path d="M-12 -12.5 L-10 -16 L-7.5 -12.5 Z" fill="${DARK}"/>
+        <path d="M9.5 -8 q4 -2 3 -6" stroke="${DARK}" stroke-width="1.6" fill="none"/>`,
+    8: `<g class="m-bob"><path d="M-5.5 0 Q-6 -17 0 -21 Q6 -17 5.5 0 Q3.5 -4 2 0 Q0 -4 -2 0 Q-3.5 -4 -5.5 0 Z" fill="${CREAM}" opacity="0.5"/>
+        <circle cy="-16" r="3" fill="${CREAM}" opacity="0.65"/></g>`,
+    9: `<g class="m-bob"><path d="M-3 -8 Q6 -13 12 -7 Q7 0 -2 -1 Z" fill="${DARK}"/>
+        <path d="M0 -9 Q4 -18 12 -16 Q8 -10 3 -8 Z" fill="${DARK}"/>
+        <circle cx="-5" cy="-13" r="3.4" fill="${DARK}"/></g>
+        <text x="12" y="-18" font-size="11" fill="${CREAM}" class="m-glow">♪</text>`,
+    10: `<g class="m-spin"><path d="M14 -10 A14 14 0 1 1 -14 -10 A11.5 11.5 0 1 1 10 -10 A8 8 0 1 1 -6 -10 A4.5 4.5 0 1 1 4 -10" fill="none" stroke="${CREAM}" stroke-width="2.2" opacity="0.85" transform="translate(0 0)"/></g>`,
+    11: `<g class="m-glow"><circle cy="-16" r="5.5" fill="${GOLD}"/></g>
+        <path d="M-10 -2 Q-13 -9 -8 -12 M10 -2 Q13 -9 8 -12" stroke="${GOLD}" stroke-width="2.2" fill="none"/>
+        <path d="M-9 0 L9 0" stroke="${DARK}" stroke-width="3"/>`,
+    12: `<path d="M0 0 Q-2 -10 -5 -17" stroke="${DARK}" stroke-width="3.4" fill="none"/>
+        <circle cx="-8" cy="-21" r="5.5" fill="${OLIVE}"/><circle cx="-1" cy="-24" r="6" fill="${OLIVE}"/><circle cx="5" cy="-20" r="5" fill="${OLIVE}"/>`,
+    13: `<g class="m-bob"><path d="M-13 -6 Q-6 2 0 2 Q8 2 13 -8 Q6 -3 0 -3 Q-7 -3 -13 -6 Z" fill="${DARK}"/>
+        <circle cx="9" cy="-5.5" r="1.8" fill="${CREAM}"/><path d="M-12 -6 Q-15 -10 -13 -14" stroke="${DARK}" stroke-width="2" fill="none"/></g>`,
+    14: `<path d="M-2 -24 Q12 -12 -2 0" stroke="${GOLD}" stroke-width="2.6" fill="none"/>
+        <path d="M-2 -24 L-2 0" stroke="${CREAM}" stroke-width="1.2"/>
+        <path d="M-5 -12 L14 -12 M14 -12 L9 -14.5 M14 -12 L9 -9.5" stroke="${DARK}" stroke-width="1.8"/>`,
+  };
+
   // island blobs + stop nodes
   D.stops.forEach((stop) => {
-    // island: irregular blob under each stop (deterministic per id)
-    const island = document.createElementNS(NS, "path");
-    const r = 20 + (stop.id % 3) * 5;
-    let path = "";
+    // island: layered irregular blob + landmark (deterministic per id)
+    const island = document.createElementNS(NS, "g");
+    const r = 24 + (stop.id % 3) * 4;
+    let outer = "", inner = "";
     for (let a = 0; a <= 12; a++) {
       const ang = (a / 12) * Math.PI * 2;
-      const wobble = 1 + 0.28 * Math.sin(ang * 3 + stop.id * 1.7);
-      const px = stop.x + Math.cos(ang) * r * wobble;
-      const py = stop.y + Math.sin(ang) * r * 0.6 * wobble;
-      path += (a === 0 ? "M" : "L") + ` ${px.toFixed(1)} ${py.toFixed(1)} `;
+      const wob = 1 + 0.28 * Math.sin(ang * 3 + stop.id * 1.7);
+      outer += `${a === 0 ? "M" : "L"} ${(Math.cos(ang) * r * 1.3 * wob).toFixed(1)} ${(Math.sin(ang) * r * 0.62 * wob).toFixed(1)} `;
+      inner += `${a === 0 ? "M" : "L"} ${(Math.cos(ang) * r * 0.85 * wob).toFixed(1)} ${(Math.sin(ang) * r * 0.4 * wob - 3).toFixed(1)} `;
     }
-    island.setAttribute("d", path + "Z");
-    island.setAttribute("fill", "rgba(140,106,63,0.25)");
-    island.setAttribute("stroke", "rgba(217,164,65,0.35)");
-    island.setAttribute("filter", "url(#soften)");
+    const dx = stop.id % 2 ? 24 : -24;
+    island.setAttribute("transform", `translate(${stop.x} ${stop.y})`);
+    island.innerHTML = `
+      <path d="${outer}Z" fill="rgba(140,106,63,0.45)" stroke="rgba(217,164,65,0.5)" stroke-width="1.2" filter="url(#soften)"/>
+      <path d="${inner}Z" fill="rgba(181,83,44,0.4)"/>
+      <g transform="translate(${dx} 6) scale(0.95)">${MOTIFS[stop.id] || ""}</g>`;
     svg.appendChild(island);
 
     const g = document.createElementNS(NS, "g");
@@ -205,6 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const next = document.getElementById("next-stop");
     if (prev && id > 1) prev.addEventListener("click", () => selectStop(id - 1));
     if (next && id < D.stops.length) next.addEventListener("click", () => selectStop(id + 1));
+    document.dispatchEvent(new CustomEvent("hs:scenes"));
   }
 
   document.addEventListener("hs:persona", () => selectStop(activeStop));
