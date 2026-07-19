@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="medallion"><span style="font-size:1.7rem">${ch.icon}</span></div>
       <div class="chapter-num">Chapter ${String(i + 1).padStart(2, "0")}</div>
       <h3>${ch.title}</h3>
+      <div class="scene-wrap">${HSScenes.render(ch.scene, "tc" + i)}</div>
       <p class="story">${ch.story}</p>
       <div data-facts='${JSON.stringify(ch.facts).replace(/'/g, "&#39;")}'></div>`;
     tl.appendChild(el);
@@ -34,6 +35,20 @@ document.addEventListener("DOMContentLoaded", () => {
       rx: 0.22,
       ry: 2.4,
       autoSpin: 0.004,
+    });
+  }
+
+  // ---------- 3D citadel of troy (burning, with embers) ----------
+  const cityCanvas = document.getElementById("city-canvas");
+  if (cityCanvas) {
+    E3D.createScene(cityCanvas, {
+      mesh: E3D.cityMesh(),
+      camDist: 760,
+      fov: 760,
+      rx: 0.42,
+      ry: 0.4,
+      autoSpin: 0.0028,
+      overlay: E3D.emberOverlay(),
     });
   }
 

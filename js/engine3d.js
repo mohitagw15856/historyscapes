@@ -99,7 +99,14 @@ const E3D = (() => {
   function merge(target, src) {
     const base = target.verts.length;
     src.verts.forEach((v) => target.verts.push(v.slice()));
-    src.faces.forEach((f) => target.faces.push({ idx: f.idx.map((i) => i + base), color: f.color }));
+    src.faces.forEach((f) => target.faces.push({ idx: f.idx.map((i) => i + base), color: f.color, doubleSided: f.doubleSided }));
+  }
+
+  function mergeT(target, src, s, tx, ty, tz) {
+    // merge with uniform scale + translation
+    const base = target.verts.length;
+    src.verts.forEach((v) => target.verts.push([v[0] * s + tx, v[1] * s + ty, v[2] * s + tz]));
+    src.faces.forEach((f) => target.faces.push({ idx: f.idx.map((i) => i + base), color: f.color, doubleSided: f.doubleSided }));
   }
 
   // ---------- renderer ----------
@@ -116,6 +123,7 @@ const E3D = (() => {
       light: norm(opts.light || [-0.5, -0.8, -0.45]),
       fog: opts.fog ?? 0.0012,
       bg: opts.bg || null,
+      overlay: opts.overlay || null,
       onFrame: opts.onFrame || null,
       dragging: false,
       running: true,
@@ -212,6 +220,7 @@ const E3D = (() => {
         ctx.fill();
         ctx.stroke();
       }
+      if (state.overlay) state.overlay(ctx, state);
     }
     frame();
     return state;
@@ -229,6 +238,10 @@ const E3D = (() => {
     seaLight: [34, 74, 113],
     sail: [232, 221, 195],
     bronze: [140, 106, 63],
+    stone: [148, 138, 120],
+    stoneDark: [112, 102, 86],
+    roof: [176, 84, 48],
+    sand: [168, 148, 108],
   };
 
   // ---------- prefab: greek temple ----------
@@ -300,6 +313,85 @@ const E3D = (() => {
     return m;
   }
 
+  // ---------- prefab: the citadel of troy (with horse at the gate) ----------
+  function cityMesh() {
+    const m = emptyMesh();
+    // plain
+    addBox(m, 0, 118, 30, 620, 16, 520, C.sand);
+    const gTop = 110; // ground surface y
+    // wall circuit 400 x 300, front wall (z=+150) has a gate gap
+    const wallH = 48, wallT = 18;
+    const wy = gTop - wallH / 2;
+    addBox(m, 0, wy, -150, 400, wallH, wallT, C.stone);            // back
+    addBox(m, -200, wy, 0, wallT, wallH, 300, C.stoneDark);        // left
+    addBox(m, 200, wy, 0, wallT, wallH, 300, C.stoneDark);         // right
+    addBox(m, -122, wy, 150, 156, wallH, wallT, C.stone);          // front-left
+    addBox(m, 122, wy, 150, 156, wallH, wallT, C.stone);           // front-right
+    addBox(m, 0, gTop - wallH - 8, 150, 100, 16, wallT, C.stone);  // gate lintel
+    // gate towers
+    addBox(m, -55, gTop - 38, 150, 26, 76, 30, C.stoneDark);
+    addBox(m, 55, gTop - 38, 150, 26, 76, 30, C.stoneDark);
+    // corner towers + roofs
+    for (const x of [-195, 195]) for (const z of [-145, 145]) {
+      addPrism(m, x, gTop - 38, z, 24, 76, 8, C.stone);
+      addPrism(m, x, gTop - 86, z, 30, 22, 8, C.roof, 4);
+    }
+    // inner houses
+    const houses = [
+      [-120, -80, 60, 42, 54], [-40, -100, 50, 34, 44], [60, -70, 66, 40, 50],
+      [130, -20, 46, 30, 40], [-140, 20, 52, 36, 46], [120, 70, 56, 34, 44], [-90, 90, 44, 30, 38],
+    ];
+    for (const [hx, hz, w, h, d] of houses) {
+      addBox(m, hx, gTop - h / 2, hz, w, h, d, C.stoneDark);
+      addBox(m, hx, gTop - h - 6, hz, w + 8, 12, d + 8, C.roof);
+    }
+    // central palace: platform + hall + pitched roof
+    addBox(m, 0, gTop - 8, 10, 130, 16, 90, C.stone);
+    addBox(m, 0, gTop - 46, 10, 100, 60, 64, C.stone);
+    const b = m.verts.length;
+    m.verts.push(
+      [-58, gTop - 76, -26], [58, gTop - 76, -26], [58, gTop - 76, 46], [-58, gTop - 76, 46],
+      [-58, gTop - 104, 10], [58, gTop - 104, 10]
+    );
+    m.faces.push(
+      { idx: [b, b + 1, b + 5, b + 4], color: C.roof },
+      { idx: [b + 2, b + 3, b + 4, b + 5], color: C.roof },
+      { idx: [b + 1, b + 2, b + 5], color: C.stoneDark },
+      { idx: [b + 3, b, b + 4], color: C.stoneDark }
+    );
+    // the horse waiting outside the gate
+    mergeT(m, horseMesh(), 0.34, 10, gTop - 43, 226);
+    return m;
+  }
+
+  // ember particle overlay for the burning-city scene (screen space)
+  function emberOverlay() {
+    let embers = [];
+    return (ctx, s) => {
+      if (embers.length < 42 && s.t % 3 === 0)
+        embers.push({
+          x: s.w / 2 + (Math.random() - 0.5) * s.w * 0.36,
+          y: s.h * (0.42 + Math.random() * 0.22),
+          vy: 0.5 + Math.random() * 0.8,
+          vx: (Math.random() - 0.5) * 0.35,
+          life: 1,
+          r: 1 + Math.random() * 2,
+        });
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+      for (const e of embers) {
+        e.y -= e.vy; e.x += e.vx; e.life -= 0.008;
+        const a = Math.max(0, e.life) * (0.5 + 0.5 * Math.sin(s.t * 0.2 + e.x));
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, e.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(240,160,70,${a.toFixed(3)})`;
+        ctx.fill();
+      }
+      ctx.restore();
+      embers = embers.filter((e) => e.life > 0);
+    };
+  }
+
   // ---------- prefab: odyssey ship on waves ----------
   function shipMesh() {
     const m = emptyMesh();
@@ -359,5 +451,5 @@ const E3D = (() => {
     return m;
   }
 
-  return { createScene, emptyMesh, addBox, addPrism, addPrismZ, addQuad, merge, templeMesh, horseMesh, shipMesh, waveMesh, C };
+  return { createScene, emptyMesh, addBox, addPrism, addPrismZ, addQuad, merge, mergeT, templeMesh, horseMesh, shipMesh, waveMesh, cityMesh, emberOverlay, C };
 })();

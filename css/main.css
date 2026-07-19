@@ -372,6 +372,38 @@ body {
   border-radius: 2px;
 }
 
+/* ---- pottery scene panels ---- */
+.scene-wrap {
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 0.9rem 0 1.1rem;
+  border: 1px solid rgba(217, 164, 65, 0.35);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.35);
+  line-height: 0;
+}
+
+.scene-wrap svg { width: 100%; height: auto; display: block; }
+
+.frieze-wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 1.2rem;
+  border-radius: 10px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.frieze-wrap svg { width: 100%; height: auto; display: block; border-radius: 10px; }
+
+.saga-card .art.scene-art {
+  border-radius: 10px;
+  overflow: hidden;
+  line-height: 0;
+  border: 1px solid rgba(217, 164, 65, 0.3);
+}
+
+.saga-card .art.scene-art svg { width: 100%; height: auto; display: block; }
+
 /* ---- odyssey map ---- */
 .map-wrap {
   border: 1px solid var(--line);
@@ -383,8 +415,18 @@ body {
 .map-wrap svg { display: block; width: 100%; height: auto; }
 
 .stop-node { cursor: pointer; }
-.stop-node circle.halo { transition: r 0.25s, opacity 0.25s; }
-.stop-node:hover circle.halo, .stop-node.active circle.halo { opacity: 0.9; }
+.stop-node circle.halo { transition: opacity 0.25s; }
+.stop-node:hover circle.halo { opacity: 0.9; }
+.stop-node.active circle.halo {
+  opacity: 0.9;
+  animation: halo-pulse 1.8s ease-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes halo-pulse {
+  0% { transform: scale(0.65); opacity: 0.95; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
 .stop-node text { pointer-events: none; }
 
 .stop-detail {

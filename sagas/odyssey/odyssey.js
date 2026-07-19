@@ -120,6 +120,32 @@ document.addEventListener("DOMContentLoaded", () => {
     sailShip.setAttribute("transform", `translate(${p.x} ${p.y - 6}) ${flip}`);
   })();
 
+  // living decorations: whirlpool, sea serpent, siren gulls, cyclops eye
+  const decor = document.createElementNS(NS, "g");
+  decor.innerHTML = `
+    <g style="transform-box:fill-box;transform-origin:center;animation:spin 9s linear infinite">
+      <path d="M 330 452 A 26 26 0 1 1 278 452 A 22 22 0 1 1 322 452 A 15 15 0 1 1 292 452 A 8 8 0 1 1 308 452"
+        fill="none" stroke="rgba(200,225,255,0.5)" stroke-width="2.4" transform="translate(-4 8)"/>
+    </g>
+    <style>@keyframes spin { to { transform: rotate(360deg) } }
+      .serp { animation: serp 5s ease-in-out infinite alternate }
+      @keyframes serp { from { transform: translateY(0) } to { transform: translateY(7px) } }
+      .gull { animation: serp 3s ease-in-out infinite alternate }
+    </style>
+    <g class="serp">
+      <path d="M600 560 q14 -18 28 0 q14 18 28 0 q14 -18 28 0" fill="none" stroke="rgba(217,164,65,0.55)" stroke-width="3"/>
+      <path d="M688 558 l10 -10 l2 12 Z" fill="rgba(217,164,65,0.55)"/>
+    </g>
+    <g class="gull" style="animation-delay:0.8s">
+      <path d="M180 330 q6 -7 12 0 M192 330 q6 -7 12 0" fill="none" stroke="rgba(240,214,150,0.7)" stroke-width="2"/>
+      <path d="M212 344 q5 -6 10 0 M222 344 q5 -6 10 0" fill="none" stroke="rgba(240,214,150,0.5)" stroke-width="1.8"/>
+    </g>
+    <g class="serp" style="animation-delay:1.4s">
+      <ellipse cx="497" cy="398" rx="10" ry="6" fill="rgba(243,234,215,0.85)"/>
+      <circle cx="497" cy="398" r="3.2" fill="#d9a441"/><circle cx="497" cy="398" r="1.5" fill="#241209"/>
+    </g>`;
+  svg.appendChild(decor);
+
   // island blobs + stop nodes
   D.stops.forEach((stop) => {
     // island: irregular blob under each stop (deterministic per id)
@@ -165,6 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
     detail.innerHTML = `
       <div class="stop-kicker">Stop ${id} of ${D.stops.length} · ${stop.years}</div>
       <h3>${stop.icon} ${stop.name} <span style="color:var(--parchment-dim);font-size:1.05rem;font-family:var(--font-body);font-style:italic">— ${stop.sub}</span></h3>
+      <div class="scene-wrap">${HSScenes.render(stop.scene, "os" + id)}</div>
       <p class="story">${stop.story}</p>
       <div class="fact-card">
         <div class="fact-label">${factLabel}</div>

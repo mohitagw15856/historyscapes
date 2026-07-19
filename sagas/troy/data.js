@@ -15,7 +15,7 @@ const TROY_DATA = {
     "foundation stone of Western literature.",
   chapters: [
     {
-      icon: "🍎",
+      icon: "🍎", scene: "t-apple",
       title: "The Golden Apple",
       story:
         "It begins at a wedding. Every god is invited to the marriage of Peleus and " +
@@ -34,7 +34,7 @@ const TROY_DATA = {
       },
     },
     {
-      icon: "⚖️",
+      icon: "⚖️", scene: "t-judgment",
       title: "The Judgment of Paris",
       story:
         "The shepherd is Paris, secret prince of Troy. Each goddess offers a bribe: " +
@@ -52,7 +52,7 @@ const TROY_DATA = {
       },
     },
     {
-      icon: "🚢",
+      icon: "🚢", scene: "t-ships",
       title: "Helen & the Thousand Ships",
       story:
         "The most beautiful woman alive is Helen — and she is already queen of Sparta, " +
@@ -71,7 +71,7 @@ const TROY_DATA = {
       },
     },
     {
-      icon: "🏰",
+      icon: "🏰", scene: "t-siege",
       title: "Nine Years of Siege",
       story:
         "Troy does not fall quickly. Its walls — built, legend says, by Poseidon and " +
@@ -89,7 +89,7 @@ const TROY_DATA = {
       },
     },
     {
-      icon: "🛡️",
+      icon: "🛡️", scene: "t-wrath",
       title: "The Wrath of Achilles",
       story:
         "This is where Homer's Iliad actually begins: 'Sing, goddess, of the wrath of " +
@@ -108,7 +108,7 @@ const TROY_DATA = {
       },
     },
     {
-      icon: "⚔️",
+      icon: "⚔️", scene: "t-duel",
       title: "Hector vs Achilles",
       story:
         "Grief transforms Achilles into something terrifying. He returns to battle in " +
@@ -128,7 +128,7 @@ const TROY_DATA = {
       },
     },
     {
-      icon: "🐴",
+      icon: "🐴", scene: "t-horse",
       title: "The Trojan Horse",
       story:
         "Achilles is dead — felled by Paris's arrow to his one weak spot. Ten years in, " +
@@ -148,7 +148,7 @@ const TROY_DATA = {
       },
     },
     {
-      icon: "🔥",
+      icon: "🔥", scene: "t-fall",
       title: "The Fall — and a Voyage Begins",
       story:
         "Troy burns. The hidden warriors open the gates to the returned fleet, and the " +

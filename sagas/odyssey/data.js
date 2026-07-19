@@ -14,7 +14,7 @@ const ODYSSEY_DATA = {
     "why.",
   stops: [
     {
-      id: 1, name: "Troy", sub: "The voyage begins", icon: "🔥", x: 900, y: 150,
+      id: 1, name: "Troy", sub: "The voyage begins", icon: "🔥", scene: "o-depart", x: 900, y: 150,
       years: "Year 0",
       story:
         "Troy smoulders behind them as twelve ships catch the wind for Ithaca. The men are " +
@@ -28,7 +28,7 @@ const ODYSSEY_DATA = {
       },
     },
     {
-      id: 2, name: "The Cicones", sub: "Ismarus, land of the first mistake", icon: "⚔️", x: 790, y: 95,
+      id: 2, name: "The Cicones", sub: "Ismarus, land of the first mistake", icon: "⚔️", scene: "o-cicones", x: 790, y: 95,
       years: "Year 1",
       story:
         "First stop: a raid on Ismarus, city of the Cicones. It goes well — until Odysseus's " +
@@ -42,7 +42,7 @@ const ODYSSEY_DATA = {
       },
     },
     {
-      id: 3, name: "The Lotus-Eaters", sub: "The island of forgetting", icon: "🌸", x: 640, y: 520,
+      id: 3, name: "The Lotus-Eaters", sub: "The island of forgetting", icon: "🌸", scene: "o-lotus", x: 640, y: 520,
       years: "Year 1",
       story:
         "Storms drive the fleet off the map. They land among the Lotus-Eaters, gentle hosts " +
@@ -57,7 +57,7 @@ const ODYSSEY_DATA = {
       },
     },
     {
-      id: 4, name: "The Cyclops", sub: "Polyphemus's cave", icon: "👁️", x: 480, y: 420,
+      id: 4, name: "The Cyclops", sub: "Polyphemus's cave", icon: "👁️", scene: "o-cyclops", x: 480, y: 420,
       years: "Year 1",
       story:
         "The most famous stop. Trapped in the cave of Polyphemus — a one-eyed giant who eats " +
@@ -73,7 +73,7 @@ const ODYSSEY_DATA = {
       },
     },
     {
-      id: 5, name: "Aeolus", sub: "The bag of winds", icon: "💨", x: 390, y: 300,
+      id: 5, name: "Aeolus", sub: "The bag of winds", icon: "💨", scene: "o-winds", x: 390, y: 300,
       years: "Year 1–2",
       story:
         "The wind-king Aeolus gifts Odysseus every contrary wind tied up in a leather bag, " +
@@ -89,7 +89,7 @@ const ODYSSEY_DATA = {
       },
     },
     {
-      id: 6, name: "The Laestrygonians", sub: "Harbour of the giants", icon: "🪨", x: 300, y: 180,
+      id: 6, name: "The Laestrygonians", sub: "Harbour of the giants", icon: "🪨", scene: "o-giants", x: 300, y: 180,
       years: "Year 2",
       story:
         "A beautiful natural harbour, cliffs on all sides. Eleven ships anchor inside; only " +
@@ -104,7 +104,7 @@ const ODYSSEY_DATA = {
       },
     },
     {
-      id: 7, name: "Circe", sub: "The witch of Aeaea", icon: "🐷", x: 430, y: 150,
+      id: 7, name: "Circe", sub: "The witch of Aeaea", icon: "🐷", scene: "o-circe", x: 430, y: 150,
       years: "Year 2–3",
       story:
         "On Aeaea, the enchantress Circe welcomes a scouting party with a feast — then taps " +
@@ -120,7 +120,7 @@ const ODYSSEY_DATA = {
       },
     },
     {
-      id: 8, name: "Land of the Dead", sub: "The edge of the world", icon: "💀", x: 110, y: 90,
+      id: 8, name: "Land of the Dead", sub: "The edge of the world", icon: "💀", scene: "o-dead", x: 110, y: 90,
       years: "Year 3",
       story:
         "At the world's misty edge, Odysseus digs a trench, pours offerings, and calls the " +
@@ -135,7 +135,7 @@ const ODYSSEY_DATA = {
       },
     },
     {
-      id: 9, name: "The Sirens", sub: "The song no one survives", icon: "🎶", x: 200, y: 300,
+      id: 9, name: "The Sirens", sub: "The song no one survives", icon: "🎶", scene: "o-sirens", x: 200, y: 300,
       years: "Year 3",
       story:
         "The Sirens' song pulls sailors onto the rocks — no one who hears it survives. " +
@@ -151,7 +151,7 @@ const ODYSSEY_DATA = {
       },
     },
     {
-      id: 10, name: "Scylla & Charybdis", sub: "The impossible strait", icon: "🌀", x: 300, y: 420,
+      id: 10, name: "Scylla & Charybdis", sub: "The impossible strait", icon: "🌀", scene: "o-strait", x: 300, y: 420,
       years: "Year 3",
       story:
         "A narrow strait, two monsters. On one side Charybdis, a whirlpool that swallows " +
@@ -167,7 +167,7 @@ const ODYSSEY_DATA = {
       },
     },
     {
-      id: 11, name: "Cattle of the Sun", sub: "Thrinacia, the forbidden feast", icon: "🐄", x: 400, y: 520,
+      id: 11, name: "Cattle of the Sun", sub: "Thrinacia, the forbidden feast", icon: "🐄", scene: "o-cattle", x: 400, y: 520,
       years: "Year 3",
       story:
         "Tiresias's warning was explicit: whatever happens, do not eat the cattle of Helios. " +
@@ -183,7 +183,7 @@ const ODYSSEY_DATA = {
       },
     },
     {
-      id: 12, name: "Calypso", sub: "Seven years on Ogygia", icon: "🏝️", x: 150, y: 520,
+      id: 12, name: "Calypso", sub: "Seven years on Ogygia", icon: "🏝️", scene: "o-calypso", x: 150, y: 520,
       years: "Years 3–10",
       story:
         "Odysseus washes up alone on Ogygia, island of the nymph Calypso. She heals him, " +
@@ -199,7 +199,7 @@ const ODYSSEY_DATA = {
       },
     },
     {
-      id: 13, name: "The Phaeacians", sub: "Scheria, the last harbour", icon: "🛶", x: 120, y: 380,
+      id: 13, name: "The Phaeacians", sub: "Scheria, the last harbour", icon: "🛶", scene: "o-phaeacians", x: 120, y: 380,
       years: "Year 10",
       story:
         "Poseidon spots the raft and smashes it in one last storm. Odysseus swims two days " +
@@ -215,7 +215,7 @@ const ODYSSEY_DATA = {
       },
     },
     {
-      id: 14, name: "Ithaca", sub: "Home — and one last fight", icon: "🏹", x: 170, y: 230,
+      id: 14, name: "Ithaca", sub: "Home — and one last fight", icon: "🏹", scene: "o-ithaca", x: 170, y: 230,
       years: "Year 10 · journey's end",
       story:
         "Twenty years after leaving, Odysseus wakes on his own beach — and Athena disguises " +

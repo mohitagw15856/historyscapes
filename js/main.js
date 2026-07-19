@@ -71,8 +71,11 @@ const HS = (() => {
     resize();
     addEventListener("resize", resize);
 
+    let meteor = null;
+    let frameN = 0;
     (function frame() {
       requestAnimationFrame(frame);
+      frameN++;
       ctx.clearRect(0, 0, innerWidth, innerHeight);
       // subtle deep-sea gradient at the bottom
       const g = ctx.createLinearGradient(0, innerHeight * 0.55, 0, innerHeight);
@@ -87,6 +90,31 @@ const HS = (() => {
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(240,214,150,${a})`;
         ctx.fill();
+      }
+      // an occasional shooting star
+      if (!meteor && frameN % 420 === 0 && Math.random() < 0.75) {
+        meteor = {
+          x: innerWidth * (0.2 + Math.random() * 0.7),
+          y: innerHeight * Math.random() * 0.3,
+          vx: -(5 + Math.random() * 4),
+          vy: 2.4 + Math.random() * 2,
+          life: 1,
+        };
+      }
+      if (meteor) {
+        meteor.x += meteor.vx;
+        meteor.y += meteor.vy;
+        meteor.life -= 0.02;
+        const grad = ctx.createLinearGradient(meteor.x, meteor.y, meteor.x - meteor.vx * 9, meteor.y - meteor.vy * 9);
+        grad.addColorStop(0, `rgba(243,234,215,${Math.max(0, meteor.life)})`);
+        grad.addColorStop(1, "rgba(243,234,215,0)");
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(meteor.x, meteor.y);
+        ctx.lineTo(meteor.x - meteor.vx * 9, meteor.y - meteor.vy * 9);
+        ctx.stroke();
+        if (meteor.life <= 0) meteor = null;
       }
     })();
   }

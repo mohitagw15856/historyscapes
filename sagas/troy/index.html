@@ -74,6 +74,23 @@
 
   <div class="meander"></div>
 
+  <!-- 3D citadel: the night troy fell -->
+  <section class="section">
+    <h2 class="section-title">The Night Troy Fell</h2>
+    <p class="section-sub">
+      The citadel in full: god-built walls, watchtowers, Priam's palace — and the
+      horse waiting at the Scaean Gate while embers begin to rise.
+    </p>
+    <div class="panel reveal" style="padding:0.6rem">
+      <canvas id="city-canvas" style="width:100%;height:460px;display:block;cursor:grab" aria-label="Rotating 3D citadel of Troy with the wooden horse at its gate"></canvas>
+      <p style="text-align:center;color:var(--parchment-dim);font-size:0.95rem;padding:0.4rem 0 0.8rem">
+        ↻ Drag to orbit the citadel — every mesh is data anyone can edit in <code>js/engine3d.js</code>.
+      </p>
+    </div>
+  </section>
+
+  <div class="meander"></div>
+
   <!-- myth vs dig -->
   <section class="section">
     <h2 class="section-title">Myth vs. Dig</h2>
@@ -103,6 +120,7 @@
 
   <script src="../../js/main.js"></script>
   <script src="../../js/engine3d.js"></script>
+  <script src="../../js/scenes.js"></script>
   <script src="data.js"></script>
   <script src="troy.js"></script>
   <script>

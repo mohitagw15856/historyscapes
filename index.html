@@ -39,6 +39,9 @@
     </p>
   </section>
 
+  <!-- marching hoplite frieze -->
+  <div class="frieze-wrap reveal" id="frieze" style="margin-bottom:2.4rem"></div>
+
   <!-- 3D temple hero -->
   <section class="section reveal" style="padding-top:0">
     <div class="panel" style="padding:0.6rem">
@@ -62,22 +65,13 @@
     <div class="card-grid">
       <a class="saga-card live reveal" href="sagas/troy/index.html">
         <span class="tag">Live</span>
-        <div class="art">
-          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-            <path d="M14 52h36M18 52V30l8-6v-8l6 4 6-4v8l8 6v22M26 52v-10h12v10" stroke="#d9a441" stroke-width="2.2" stroke-linejoin="round"/>
-            <circle cx="32" cy="14" r="3" stroke="#e8794a" stroke-width="2"/>
-          </svg>
-        </div>
+        <div class="art scene-art" data-scene="t-horse" data-scene-uid="card-troy"></div>
         <h3>Saga 01 · The Fall of Troy</h3>
         <p>A golden apple, a stolen queen, a thousand ships and a wooden horse. Ten years of war in eight chapters — plus what archaeologists actually dug up.</p>
       </a>
       <a class="saga-card live reveal" href="sagas/odyssey/index.html">
         <span class="tag">Live</span>
-        <div class="art">
-          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-            <path d="M10 44c4-3 8-3 12 0s8 3 12 0 8-3 12 0 8 3 8 3M16 40l4-14h24l4 14M32 26V12m0 0 10 8H32" stroke="#d9a441" stroke-width="2.2" stroke-linejoin="round"/>
-          </svg>
-        </div>
+        <div class="art scene-art" data-scene="o-sirens" data-scene-uid="card-ody"></div>
         <h3>Saga 02 · The Odyssey</h3>
         <p>Ten years, fourteen stops, one man trying to get home. Sail the full journey on an interactive chart of the mythic Mediterranean.</p>
       </a>
@@ -137,9 +131,10 @@
 
   <script src="js/main.js"></script>
   <script src="js/engine3d.js"></script>
+  <script src="js/scenes.js"></script>
   <script>
-    // 3D temple hero scene
     document.addEventListener("DOMContentLoaded", () => {
+      // 3D temple hero scene
       const canvas = document.getElementById("temple-canvas");
       E3D.createScene(canvas, {
         mesh: E3D.templeMesh(),
@@ -148,6 +143,11 @@
         rx: 0.26,
         ry: 0.5,
         autoSpin: 0.0035,
+      });
+      // marching frieze + pottery card art
+      document.getElementById("frieze").innerHTML = HSScenes.frieze("landing");
+      document.querySelectorAll("[data-scene]").forEach((el) => {
+        el.innerHTML = HSScenes.render(el.dataset.scene, el.dataset.sceneUid);
       });
     });
   </script>
